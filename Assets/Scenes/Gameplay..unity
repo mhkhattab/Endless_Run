@@ -119,34 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &112567838 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1508886809880762488, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
-  m_PrefabInstance: {fileID: 4987415195320315144}
-  m_PrefabAsset: {fileID: 0}
---- !u!136 &112567843
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112567838}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &243737879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1461,7 +1433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 307000095125906, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.373
+      value: 8.33
       objectReference: {fileID: 0}
     - target: {fileID: 307000095125906, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1469,7 +1441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 307000095125906, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.8
+      value: 1.49
       objectReference: {fileID: 0}
     - target: {fileID: 307000095125906, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1570,13 +1542,10 @@ PrefabInstance:
       addedObject: {fileID: 4987415195320315146}
     - targetCorrespondingSourceObject: {fileID: 6098373981907827117, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4987415195320315151}
+      addedObject: {fileID: 4987415195320315153}
     - targetCorrespondingSourceObject: {fileID: 6098373981907827117, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4987415195320315153}
-    - targetCorrespondingSourceObject: {fileID: 1508886809880762488, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 112567843}
+      addedObject: {fileID: 4987415195320315154}
   m_SourcePrefab: {fileID: 100100000, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
 --- !u!1 &4987415195320315145 stripped
 GameObject:
@@ -1615,7 +1584,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 307000095125906, guid: 26a1dc05830ef4a1daa48ca3bf6450cd, type: 3}
   m_PrefabInstance: {fileID: 4987415195320315144}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &4987415195320315151
+--- !u!114 &4987415195320315153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4987415195320315145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd79a7cc1ade409fba436e73cea8897, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSimple
+  forwardSpeed: 2
+  laneDistance: 3
+  laneChangeSpeed: 10
+--- !u!136 &4987415195320315154
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1634,25 +1618,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.0336624
-  m_Height: 2.0673249
+  m_Radius: 1
+  m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0.99999845, z: 0.06840813}
---- !u!114 &4987415195320315153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4987415195320315145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acd79a7cc1ade409fba436e73cea8897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementSimple
-  forwardSpeed: 2
-  laneDistance: 3
-  laneChangeSpeed: 10
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
