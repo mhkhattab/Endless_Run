@@ -1,82 +1,60 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementSimple : MonoBehaviour
 {
-    [Header("Movement")]
-    public float forwardSpeed = 6f;
-    public float laneDistance = 2f;       // distance between lanes
-    [Range(0, 2)] public int currentLane = 1;  // 0 = left, 1 = center, 2 = right
-    public float laneChangeSmooth = 10f;
+    public float forwardSpeed = 5f;       // Constant forward speed
+    public float laneDistance = 2.5f;     // Distance between lanes
+    public float laneChangeSpeed = 10f;   // Smooth side movement speed
 
-    [Header("Jump")]
-    public float jumpForce = 7f;
-    public LayerMask groundMask;
-
-    private Rigidbody rb;
-    private float targetX;
-    private bool isGrounded;
+    private CharacterController controller;
+    private int targetLane = 1;           // 0 = left, 1 = middle, 2 = right
+    private float verticalVelocity;
+    private float gravity = -20f;
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-
-        // starting in center lane
-        targetX = (currentLane - 1) * laneDistance;
+        controller = GetComponent<CharacterController>();
+        if (controller == null)
+        {
+            controller = gameObject.AddComponent<CharacterController>();
+        }
     }
 
     void Update()
     {
-        // ------------------------------------
-        // 1. Handle lane input
-        // ------------------------------------
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            ChangeLane(-1);
+        // ==== CONSTANT FORWARD MOVEMENT ====
+        Vector3 move = Vector3.forward * forwardSpeed;
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            ChangeLane(+1);
+        // ==== LANE INPUT ====
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            targetLane = Mathf.Max(0, targetLane - 1);
 
-        // ------------------------------------
-        // 2. Grounded check
-        // ------------------------------------
-        isGrounded = Physics.Raycast(transform.position + Vector3.up * 0.1f,
-                                     Vector3.down, 
-                                     0.2f,
-                                     groundMask);
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            targetLane = Mathf.Min(2, targetLane + 1);
 
-        // ------------------------------------
-        // 3. Jump
-        // ------------------------------------
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        // ==== LANE POSITION CALCULATION ====
+        float targetX = (targetLane - 1) * laneDistance;
+
+        float deltaX = targetX - transform.position.x;
+        float xVelocity = deltaX * laneChangeSpeed;
+
+        move.x = xVelocity;
+
+        // ==== SIMPLE GRAVITY ====
+        if (controller.isGrounded)
         {
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
+            verticalVelocity = -1f;
+            if (Input.GetKeyDown(KeyCode.Space))
+                verticalVelocity = 10f; // jump
         }
-    }
+        else
+        {
+            verticalVelocity += gravity * Time.deltaTime;
+        }
 
-    void FixedUpdate()
-    {
-        // ------------------------------------
-        // PURE FORWARD MOVEMENT (Z ONLY)
-        // ------------------------------------
-        float newZ = rb.position.z + forwardSpeed * Time.fixedDeltaTime;
+        move.y = verticalVelocity;
 
-        // ------------------------------------
-        // PURE SIDE MOVEMENT (X ONLY)
-        // ------------------------------------
-        float newX = Mathf.Lerp(rb.position.x, targetX, laneChangeSmooth * Time.fixedDeltaTime);
-
-        // ------------------------------------
-        // COMBINE MOVEMENT
-        // ------------------------------------
-        Vector3 newPos = new Vector3(newX, rb.position.y, newZ);
-
-        rb.MovePosition(newPos);
-    }
-
-    void ChangeLane(int direction)
-    {
-        currentLane = Mathf.Clamp(currentLane + direction, 0, 2);
-        targetX = (currentLane - 1) * laneDistance;   // only X changes!
+        // ==== APPLY FINAL MOVEMENT ====
+        controller.Move(move * Time.deltaTime);
     }
 }
