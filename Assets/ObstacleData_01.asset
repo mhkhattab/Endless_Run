@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a70691353174640ad1ad5cb09f8a3b, type: 3}
   m_Name: ObstacleData_01
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleData
-  obstaclePrefab: {fileID: 0}
+  obstaclePrefab: {fileID: 607577974987077033, guid: 39cb9831f6c3e4e09beb87352a565e64, type: 3}
   spawnChance: 1
   minScale: 1
   maxScale: 1

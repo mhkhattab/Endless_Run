@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0afdfef16bc24545afaa12e68c618c1, type: 3}
   m_Name: CollectibleData_01
   m_EditorClassIdentifier: Assembly-CSharp::CollectibleData
-  collectiblePrefab: {fileID: 0}
+  collectiblePrefab: {fileID: 2999894253372536992, guid: a4dea9e86378a42118dd46c248e792d6, type: 3}
   scoreValue: 10
   spawnChance: 1
