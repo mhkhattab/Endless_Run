@@ -20,7 +20,12 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
@@ -39,23 +44,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // -----------------------------------------------------------
+    //                      GAME FLOW
+    // -----------------------------------------------------------
+
     public void StartGame()
     {
         score = 0;
         timeSurvived = 0f;
+
         uiManager?.UpdateScore(score);
         uiManager?.HideAll();
         uiManager?.ShowHUD();
+
         State = GameState.Playing;
-        // Position player
-        if (player != null && playerStart != null)
-            player.GetComponent<PlayerController>().ResetPlayer(playerStart.position, 1);
         Time.timeScale = 1f;
+
+        // Reset and position player
+        if (player != null && playerStart != null)
+        {
+            PlayerController pc = player.GetComponent<PlayerController>();
+            if (pc != null)
+                pc.ResetPlayer(playerStart.position, 1);
+        }
     }
 
     public void PauseGame()
     {
         if (State != GameState.Playing) return;
+
         State = GameState.Paused;
         Time.timeScale = 0f;
         uiManager?.ShowPause();
@@ -64,6 +81,7 @@ public class GameManager : MonoBehaviour
     public void ResumeGame()
     {
         if (State != GameState.Paused) return;
+
         State = GameState.Playing;
         Time.timeScale = 1f;
         uiManager?.HidePause();
@@ -82,10 +100,26 @@ public class GameManager : MonoBehaviour
         uiManager?.UpdateScore(score);
     }
 
+    // -----------------------------------------------------------
+    //                   PLAYER HIT FIXED VERSION
+    // -----------------------------------------------------------
+
     public void OnPlayerHitObstacle()
     {
+        Debug.Log("GAME OVER — Enemy caught the player!");
+
+        // Stop player movement
+        PlayerController pc = FindObjectOfType<PlayerController>();
+        if (pc != null)
+            pc.enabled = false;
+
+        // Trigger real gameover flow (UI + freeze)
         GameOver();
     }
+
+    // -----------------------------------------------------------
+    //             RESTART / MENU / QUIT
+    // -----------------------------------------------------------
 
     public void Restart()
     {
@@ -97,12 +131,12 @@ public class GameManager : MonoBehaviour
     {
         State = GameState.MainMenu;
         Time.timeScale = 1f;
+
         uiManager?.ShowMainMenu();
     }
 
     public void Quit()
     {
-        // In editor this does nothing; in build it quits.
         Application.Quit();
     }
 }
