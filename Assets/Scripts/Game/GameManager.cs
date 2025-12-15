@@ -144,7 +144,8 @@ public class GameManager : MonoBehaviour
 
 
     public void Quit()
-    {
-        Application.Quit();
-    }
+{
+    Debug.Log("QUIT BUTTON CLICKED");
+    Application.Quit();
+}
 }

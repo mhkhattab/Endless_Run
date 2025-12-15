@@ -49,13 +49,14 @@ public class UIManager : MonoBehaviour
         pauseMenu?.SetActive(false);
     }
 
-    public void ShowGameOver(int score, float time)
-    {
-        HideAll();
-        gameOverMenu?.SetActive(true);
-        if (finalScoreText) finalScoreText.text = $"Score: {score}";
-        if (finalTimeText) finalTimeText.text = $"Time: {time:F1}s";
-    }
+  public void ShowGameOver(int score, float time)
+{
+    HideAll();
+    gameOverMenu.SetActive(true);
+
+    finalScoreText.text = "Score: " + score;
+    finalTimeText.text = "Time: " + time.ToString("F1") + "s";
+}
 
     public void UpdateScore(int s)
     {
