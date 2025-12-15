@@ -72,17 +72,25 @@ public class GameManager : MonoBehaviour
 
         State = GameState.Paused;
         Time.timeScale = 0f;
+
+        PlayerController pc = player.GetComponent<PlayerController>();
+        if (pc != null) pc.enabled = false;   // ✅ ADD THIS
+
         uiManager?.ShowPause();
     }
 
     public void ResumeGame()
-    {
-        if (State != GameState.Paused) return;
+{
+    if (State != GameState.Paused) return;
 
-        State = GameState.Playing;
-        Time.timeScale = 1f;
-        uiManager?.HidePause();
-    }
+    State = GameState.Playing;
+    Time.timeScale = 1f;
+
+    PlayerController pc = player.GetComponent<PlayerController>();
+    if (pc != null) pc.enabled = true;    // ✅ ADD THIS
+
+    uiManager?.HidePause();
+}
 
     public void GameOver()
     {

@@ -32,6 +32,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (GameManager.Instance.State == GameManager.GameState.Playing)
+                GameManager.Instance.PauseGame();
+            else if (GameManager.Instance.State == GameManager.GameState.Paused)
+                GameManager.Instance.ResumeGame();
+
+            return;
+        }
         HandleInput();
         HandleMovement();
         UpdateAnimations();

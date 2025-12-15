@@ -66,4 +66,9 @@ public class UIManager : MonoBehaviour
     {
         if (timeText) timeText.text = $"{t:F1}s";
     }
+    public void SyncVolumeSlider(UnityEngine.UI.Slider slider)
+{
+    if (AudioManager.Instance != null)
+        slider.value = AudioManager.Instance.GetMusicVolume();
+}
 }
