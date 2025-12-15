@@ -1,20 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI;
-using text = UnityEngine.UI.Text;
+using TMPro;
 
 public class UIManager : MonoBehaviour
 {
     [Header("HUD")]
     public GameObject hud;
-    public Text scoreText;
-    public Text timeText;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timeText;
 
     [Header("Menus")]
     public GameObject mainMenu;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
-    public Text finalScoreText;
-    public Text finalTimeText;
+    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI finalTimeText;
 
     void Start()
     {

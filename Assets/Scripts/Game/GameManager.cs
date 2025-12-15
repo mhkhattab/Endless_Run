@@ -49,25 +49,22 @@ public class GameManager : MonoBehaviour
     // -----------------------------------------------------------
 
     public void StartGame()
-    {
-        score = 0;
-        timeSurvived = 0f;
+{
+    score = 0;
+    timeSurvived = 0f;
 
-        uiManager?.UpdateScore(score);
-        uiManager?.HideAll();
-        uiManager?.ShowHUD();
+    uiManager?.UpdateScore(score);
+    uiManager?.HideAll();
+    uiManager?.ShowHUD();
 
-        State = GameState.Playing;
-        Time.timeScale = 1f;
+    State = GameState.Playing;
 
-        // Reset and position player
-        if (player != null && playerStart != null)
-        {
-            PlayerController pc = player.GetComponent<PlayerController>();
-            if (pc != null)
-                pc.ResetPlayer(playerStart.position, 1);
-        }
-    }
+    PlayerController pc = player.GetComponent<PlayerController>();
+    if (pc != null) pc.enabled = true;    // ✅ ONLY change
+
+    if (player != null && playerStart != null)
+        pc.ResetPlayer(playerStart.position, 1);
+}
 
     public void PauseGame()
     {
@@ -130,10 +127,13 @@ public class GameManager : MonoBehaviour
     public void GoToMainMenu()
     {
         State = GameState.MainMenu;
-        Time.timeScale = 1f;
+
+        PlayerController pc = player.GetComponent<PlayerController>();
+        if (pc != null) pc.enabled = false;   // ✅ ONLY change
 
         uiManager?.ShowMainMenu();
     }
+
 
     public void Quit()
     {
