@@ -31,7 +31,9 @@ public class PlayerController : MonoBehaviour
     }
 
     void Update()
-    {
+{
+    if (GameManager.Instance.State != GameManager.GameState.Playing)
+        return;
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (GameManager.Instance.State == GameManager.GameState.Playing)
@@ -57,11 +59,11 @@ public class PlayerController : MonoBehaviour
         {
             ChangeLane(+1);
         }
-
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Jump")) && IsGrounded())
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             Jump();
         }
+
 
         // Simple touch swipe (vertical only for jump, horizontal for lane change)
         if (Input.touchCount == 1)
@@ -117,15 +119,19 @@ public class PlayerController : MonoBehaviour
         animator?.SetTrigger("Jump");
     }
 
-    bool IsGrounded()
-    {
-        if (groundCheck == null)
-        {
-            // fallback - character controller isGrounded
-            return controller.isGrounded;
-        }
-        return Physics.CheckSphere(groundCheck.position, groundCheckDistance, groundMask);
-    }
+   bool IsGrounded()
+{
+    // Always trust CharacterController first
+    if (controller.isGrounded)
+        return true;
+
+    // Optional extra ground check
+    if (groundCheck == null)
+        return false;
+
+    return Physics.CheckSphere(groundCheck.position, groundCheckDistance, groundMask);
+}
+
 
     void UpdateAnimations()
     {
@@ -143,4 +149,26 @@ public class PlayerController : MonoBehaviour
         UpdateDesiredX();
         verticalVelocity = Vector3.zero;
     }
+    public void Die()
+{
+    if (animator != null)
+        animator.SetTrigger("Die");
+
+    enabled = false; // stop movement AFTER triggering animation
+}
+void OnControllerColliderHit(ControllerColliderHit hit)
+{
+    if (hit.collider.CompareTag("Obstacle"))
+    {
+        // Trigger die animation
+        if (animator != null)
+            animator.SetTrigger("Die");
+
+        // Notify game manager
+        GameManager.Instance.OnPlayerHitObstacle();
+        
+    }
+}
+
+
 }
